@@ -111,6 +111,11 @@ class Request extends Message implements RequestInterface
     public function getAbsoluteUrl(): string
     {
         if (!$this->absoluteUrl) {
+            // Hotfix
+            $u = $this->getUrl();
+            // Guessing the URL is an absolute URL already
+            if (str_starts_with($u, 'http')) return $u;
+            // -- Hotfix
             // Guessing we're a http endpoint.
             $this->absoluteUrl = 'http://'.
                 ($this->getHeader('Host') ?? 'localhost').
